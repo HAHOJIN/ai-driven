@@ -7,16 +7,9 @@ import {
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { mockStyleOptions } from "@/utils/mockData";
+import { IStyleOptions, IStyleOptionsProps } from "@/types";
 
-interface StyleOptionsProps {
-  value: {
-    artStyle: string;
-    colorTone: string;
-  };
-  onChange: (field: 'artStyle' | 'colorTone', value: string) => void;
-}
-
-export function StyleOptions({ value, onChange }: StyleOptionsProps) {
+export function StyleOptions({ value, onChange }: IStyleOptionsProps) {
   return (
     <div className="grid grid-cols-2 gap-6">
       <div className="space-y-2">

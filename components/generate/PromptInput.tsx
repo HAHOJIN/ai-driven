@@ -1,13 +1,8 @@
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { IPromptInputProps } from "@/types";
 
-interface PromptInputProps {
-  value: string;
-  onChange: (value: string) => void;
-  error?: string;
-}
-
-export function PromptInput({ value, onChange, error }: PromptInputProps) {
+export function PromptInput({ value, onChange, error }: IPromptInputProps) {
   const maxLength = 500;
 
   return (

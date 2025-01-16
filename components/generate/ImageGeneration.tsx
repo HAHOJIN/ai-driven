@@ -8,15 +8,16 @@ import { GeneratedImageActions } from "./GeneratedImageActions";
 import { mockGeneratedImage } from "@/utils/mockData";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { IGeneratedImage, IStyleOptions } from "@/types";
 
 export function ImageGeneration() {
   const [prompt, setPrompt] = useState("");
-  const [styleOptions, setStyleOptions] = useState({
+  const [styleOptions, setStyleOptions] = useState<IStyleOptions>({
     artStyle: "digital-art",
     colorTone: "bright",
   });
   const [isGenerating, setIsGenerating] = useState(false);
-  const [generatedImage, setGeneratedImage] = useState<typeof mockGeneratedImage | null>(null);
+  const [generatedImage, setGeneratedImage] = useState<IGeneratedImage | null>(null);
   const [promptError, setPromptError] = useState<string>("");
   const { toast } = useToast();
 

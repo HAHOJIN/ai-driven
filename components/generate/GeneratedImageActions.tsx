@@ -2,19 +2,13 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Download, Share2, Save } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import { IGeneratedImage } from "@/types/generate";
-
-interface GeneratedImageActionsProps {
-  imageUrl: string;
-  prompt: string;
-  styleOptions: IGeneratedImage['styleOptions'];
-}
+import { IGeneratedImage, IGeneratedImageActionsProps } from "@/types";
 
 export function GeneratedImageActions({
   imageUrl,
   prompt,
   styleOptions
-}: GeneratedImageActionsProps) {
+}: IGeneratedImageActionsProps) {
   const { toast } = useToast();
 
   const handleDownload = async () => {
@@ -24,7 +18,7 @@ export function GeneratedImageActions({
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `generated-image-${Date.now()}.jpg`;
+      a.download = `generated-image-${Date.now()}.png`;
       document.body.appendChild(a);
       a.click();
       window.URL.revokeObjectURL(url);
