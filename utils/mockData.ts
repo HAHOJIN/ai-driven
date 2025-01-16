@@ -156,4 +156,30 @@ export const mockComments: IComment[] = [
     createdAt: '2024-03-13T12:15:00Z',
     userProfile: null
   }
-]; 
+];
+
+export const mockStyleOptions = {
+  artStyles: [
+    { value: 'digital-art', label: '디지털아트' },
+    { value: 'watercolor', label: '수채화' },
+    { value: 'oil-painting', label: '유화' },
+    { value: 'pen-drawing', label: '펜화' },
+    { value: 'pencil-sketch', label: '연필화' }
+  ],
+  colorTones: [
+    { value: 'bright', label: '밝은' },
+    { value: 'dark', label: '어두운' },
+    { value: 'pastel', label: '파스텔' },
+    { value: 'black-and-white', label: '흑백' },
+    { value: 'colorful', label: '컬러풀' }
+  ]
+};
+
+export const mockGeneratedImage = {
+  imageUrl: 'https://picsum.photos/800/600',
+  prompt: '바다 위로 떠오르는 아름다운 일출',
+  styleOptions: {
+    artStyle: 'digital-art',
+    colorTone: 'bright'
+  }
+}; 
