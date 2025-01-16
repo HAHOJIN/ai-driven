@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { PromptInput } from "./PromptInput";
 import { StyleOptions } from "./StyleOptions";
-import { GeneratedImagePreview } from "./GeneratedImagePreview";
+import { GeneratedImageActions } from "./GeneratedImageActions";
 import { mockGeneratedImage } from "@/utils/mockData";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
@@ -77,7 +77,7 @@ export function ImageGeneration() {
       </Button>
 
       {generatedImage && (
-        <GeneratedImagePreview
+        <GeneratedImageActions
           imageUrl={generatedImage.imageUrl}
           prompt={generatedImage.prompt}
           styleOptions={generatedImage.styleOptions}
