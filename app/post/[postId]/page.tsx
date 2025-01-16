@@ -150,9 +150,9 @@ export default function PostDetail({ params }: { params: { postId: string } }) {
                   />
                   <Button onClick={handleAddComment}>작성</Button>
                 </div>
-                <div className="space-y-4 overflow-y-auto max-h-[300px]">
+                <div className="space-y-2 overflow-y-auto max-h-[300px]">
                   {comments.map((comment) => (
-                    <div key={comment.id} className="flex space-x-3">
+                    <div key={comment.id} className="flex space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
                       <Avatar className="h-8 w-8">
                         <AvatarImage src={comment.userProfile || undefined} alt={comment.userName} />
                         <AvatarFallback className="bg-primary/10">

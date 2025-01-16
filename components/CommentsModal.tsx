@@ -45,9 +45,9 @@ export function CommentsModal({ post, onClose }: CommentsModalProps) {
             />
             <Button onClick={handleAddComment}>작성</Button>
           </div>
-          <div className="space-y-4 max-h-[400px] overflow-y-auto">
+          <div className="space-y-2 max-h-[400px] overflow-y-auto">
             {comments.map((comment) => (
-              <div key={comment.id} className="flex space-x-2">
+              <div key={comment.id} className="flex space-x-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
                 <Avatar className="h-8 w-8">
                   <AvatarImage src={comment.userProfile || undefined} alt={comment.userName} />
                   <AvatarFallback className="bg-primary/10">
