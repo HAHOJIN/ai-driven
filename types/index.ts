@@ -18,3 +18,8 @@ export interface IComment {
   createdAt: string;
   userProfile: string | null;
 } 
+
+export interface CommentsModalProps {
+    post: IPost;
+    onClose: () => void;
+}

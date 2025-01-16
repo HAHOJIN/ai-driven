@@ -1,18 +1,13 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { IPost, IComment } from '@/types';
+import { IPost, IComment, CommentsModalProps } from '@/types';
 import { mockComments } from '@/utils/mockData';
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
-interface CommentsModalProps {
-  post: IPost;
-  onClose: () => void;
-}
 
 export function CommentsModal({ post, onClose }: CommentsModalProps) {
   const [comments, setComments] = useState<IComment[]>(mockComments);
