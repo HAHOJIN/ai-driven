@@ -65,3 +65,78 @@ export interface IStyleOptionsProps {
   value: IStyleOptions;
   onChange: (field: 'artStyle' | 'colorTone', value: string) => void;
 }
+
+// 갤러리 이미지 관련 인터페이스
+export interface IGalleryImage {
+  id: string;
+  imageUrl: string;
+  prompt: string;
+  styleOptions: IStyleOptions;
+  category: string;
+  tags: string[];
+  createdAt: string;
+  updatedAt?: string;
+  userId?: string;
+  isPublic?: boolean;
+}
+
+// 갤러리 컴포넌트 Props 인터페이스
+export interface IGalleryGridProps {
+  images: IGalleryImage[];
+  onImageClick: (image: IGalleryImage) => void;
+}
+
+export interface IImageDetailModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  image: IGalleryImage;
+  onShare: () => void;
+  onEdit: () => void;
+}
+
+export interface IShareModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  image: IGalleryImage;
+}
+
+export interface IEditImageModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  image: IGalleryImage;
+}
+
+// API 응답 인터페이스
+export interface IGalleryResponse {
+  images: IGalleryImage[];
+  totalCount: number;
+}
+
+export interface IUpdateImageRequest {
+  id: string;
+  prompt?: string;
+  category?: string;
+  tags?: string[];
+}
+
+export interface IShareRequest {
+  imageId: string;
+  title: string;
+  description: string;
+  tags: string[];
+  isPublic: boolean;
+}
+
+export interface IShareResponse {
+  success: boolean;
+  postId?: string;
+  error?: string;
+}
+
+export interface IErrorResponse {
+  success: false;
+  error: {
+    code: string;
+    message: string;
+  }
+}

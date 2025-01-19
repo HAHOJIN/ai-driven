@@ -1,4 +1,4 @@
-import { IPost, IComment } from '@/types';
+import { IPost, IComment, IGalleryImage } from '@/types';
 
 // 목업 게시물 데이터
 export const mockPosts: IPost[] = [
@@ -182,4 +182,60 @@ export const mockGeneratedImage = {
     artStyle: 'digital-art',
     colorTone: 'bright'
   }
-}; 
+};
+
+// 갤러리 목업 데이터
+export const mockGalleryImages: IGalleryImage[] = [
+  {
+    id: '1',
+    imageUrl: 'https://picsum.photos/400/400?random=1',
+    prompt: '우주를 나는 고양이',
+    styleOptions: {
+      artStyle: 'digital-art',
+      colorTone: 'bright'
+    },
+    category: '동물',
+    tags: ['고양이', '우주', '판타지'],
+    createdAt: '2024-03-15T09:00:00Z',
+    isPublic: true
+  },
+  {
+    id: '2',
+    imageUrl: 'https://picsum.photos/400/400?random=2',
+    prompt: '미래도시의 풍경',
+    styleOptions: {
+      artStyle: 'pen-drawing',
+      colorTone: 'dark'
+    },
+    category: '풍경',
+    tags: ['도시', '미래', '야경'],
+    createdAt: '2024-03-14T15:30:00Z',
+    isPublic: true
+  },
+  {
+    id: '3',
+    imageUrl: 'https://picsum.photos/400/400?random=3',
+    prompt: '환상적인 숲속 요정',
+    styleOptions: {
+      artStyle: 'watercolor',
+      colorTone: 'pastel'
+    },
+    category: '인물',
+    tags: ['요정', '숲', '판타지'],
+    createdAt: '2024-03-13T10:20:00Z',
+    isPublic: true
+  },
+  {
+    id: '4',
+    imageUrl: 'https://picsum.photos/400/400?random=4',
+    prompt: '바다 속 인어공주',
+    styleOptions: {
+      artStyle: 'oil-painting',
+      colorTone: 'colorful'
+    },
+    category: '인물',
+    tags: ['인어', '바다', '판타지'],
+    createdAt: '2024-03-12T18:45:00Z',
+    isPublic: false
+  }
+]; 
