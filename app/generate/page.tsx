@@ -1,11 +1,15 @@
 import { ImageGeneration } from '@/components/generate/ImageGeneration';
 
-export default function GeneratePage() {
+export default function GeneratePage({
+  searchParams,
+}: {
+  searchParams: { prompt?: string };
+}) {
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="max-w-4xl mx-auto">
         <h1 className="text-2xl font-bold mb-8">이미지 생성</h1>
-        <ImageGeneration />
+        <ImageGeneration initialPrompt={searchParams.prompt || ""} />
       </div>
     </main>
   );

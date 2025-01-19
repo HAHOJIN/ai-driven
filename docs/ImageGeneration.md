@@ -9,15 +9,17 @@
 - **파일 위치**: `app/generate/page.tsx`
 
 1. **프롬프트 섹션**
+   - **파일 위치**: `components/generate/PromptInput.tsx`
    - **UI 구성**: 화면 상단에 배치된 프롬프트 입력 필드
    - **프롬프트 입력 필드**:
      - ShadcN의 `Textarea` 컴포넌트 사용
-     - 여러 줄 입력이 가능한 텍스트 영역으로 구현
-     - 최대 500자 제한
+     - 여러 줄 입력이 가능한 텍스트 영역으로 구현 (height: 32)
+     - 최대 500자 제한 (실시간 글자 수 표시)
      - placeholder: "생성하고 싶은 이미지를 자세히 설명해주세요..."
+     - Label: "프롬프트"
    - **오류 처리**: 
      - 빈 프롬프트 입력 시 "프롬프트를 입력해 주세요" 메시지 표시
-     - 글자 수 초과 시 "500자 이내로 입력해 주세요" 메시지 표시
+     - 글자 수 초과 시 입력 제한
 
 2. **스타일 옵션 섹션**
    - **파일 위치**: `components/generate/StyleOptions.tsx`
@@ -26,13 +28,13 @@
    - **스타일 옵션 항목**:
      ```typescript
      interface IStyleOptions {
-       artStyle: string;      // 예술 스타일 (수채화, 유화, 디지털아트, 펜화)
-       colorTone: string;     // 색조 (밝은, 어두운, 파스텔, 흑백)
+       artStyle: string;      // 예술 스타일 (수채화, 유화, 디지털아트, 펜화, 연필화)
+       colorTone: string;     // 색조 (밝은, 어두운, 파스텔, 흑백, 컬러풀)
      }
      ```
    - **상호작용**:
      - 각 옵션 변경 시 실시간으로 상태 업데이트
-     - 기본값: { artStyle: '디지털아트', colorTone: '밝은' }
+     - 기본값: { artStyle: 'digital-art', colorTone: 'bright' }
 
 3. **이미지 생성 섹션**
    - **파일 위치**: `components/generate/ImageGeneration.tsx`
@@ -48,15 +50,17 @@
 4. **생성된 이미지 관리 섹션**
    - **파일 위치**: `components/generate/GeneratedImageActions.tsx`
    - **UI 구성**:
-     - 갤러리에 저장하기 버튼
-     - 공유하기 버튼
-     - 다운로드 버튼
+     - 이미지 프리뷰 (aspect-video, rounded-lg)
+     - 이미지 정보 표시 (프롬프트, 스타일 옵션)
+     - 갤러리에 저장하기 버튼 (Save 아이콘)
+     - 다운로드 버튼 (Download 아이콘)
+     - 공유하기 버튼 (Share2 아이콘)
    - **상호작용**:
      - 저장: 갤러리 저장 시 토스트 메시지 표시
-     - 공유: 준비 중 메시지 표시
+     - 공유: 준비 중 메시지 토스트 표시
      - 다운로드: 
        - 이미지를 Blob으로 변환하여 로컬 저장
-       - 파일명: generated-image-{timestamp}.jpg
+       - 파일명: generated-image-{timestamp}.png
        - 다운로드 완료/실패 시 토스트 메시지 표시
 
 #### 2. 사용자 흐름 및 상호작용
@@ -86,8 +90,8 @@
   interface IGenerateRequest {
     prompt: string;
     styleOptions: {
-      artStyle: string;
-      colorTone: string;
+      artStyle: string;  // digital-art, watercolor, oil-painting, pen-drawing, pencil-sketch
+      colorTone: string; // bright, dark, pastel, black-and-white, colorful
     }
   }
   ```

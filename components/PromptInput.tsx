@@ -10,13 +10,15 @@ export default function PromptInput() {
   const [error, setError] = useState('');
   const router = useRouter();
 
-  // 프롬프트 입력 처리
   const handleSubmit = () => {
     if (!prompt.trim()) {
       setError('프롬프트를 입력해 주세요');
       return;
     }
-    router.push(`/generate?prompt=${encodeURIComponent(prompt)}`);
+    
+    // URL 인코딩하여 프롬프트를 쿼리 파라미터로 전달
+    const encodedPrompt = encodeURIComponent(prompt.trim());
+    router.push(`/generate?prompt=${encodedPrompt}`);
   };
 
   return (
@@ -27,6 +29,12 @@ export default function PromptInput() {
         onChange={(e) => {
           setPrompt(e.target.value);
           setError('');
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' && !e.shiftKey) {
+            e.preventDefault();
+            handleSubmit();
+          }
         }}
         className="h-12"
       />

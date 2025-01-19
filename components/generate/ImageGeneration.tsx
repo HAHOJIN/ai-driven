@@ -10,8 +10,12 @@ import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { IGeneratedImage, IStyleOptions } from "@/types";
 
-export function ImageGeneration() {
-  const [prompt, setPrompt] = useState("");
+interface ImageGenerationProps {
+  initialPrompt: string;
+}
+
+export function ImageGeneration({ initialPrompt }: ImageGenerationProps) {
+  const [prompt, setPrompt] = useState(initialPrompt);
   const [styleOptions, setStyleOptions] = useState<IStyleOptions>({
     artStyle: "digital-art",
     colorTone: "bright",
