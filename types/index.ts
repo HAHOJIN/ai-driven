@@ -84,6 +84,10 @@ export interface IGalleryImage {
 export interface IGalleryGridProps {
   images: IGalleryImage[];
   onImageClick: (image: IGalleryImage) => void;
+  onShare: (image: IGalleryImage) => void;
+  onDownload: (image: IGalleryImage) => void;
+  onEdit: (image: IGalleryImage) => void;
+  onDelete: (image: IGalleryImage) => void;
 }
 
 export interface IImageDetailModalProps {
@@ -92,6 +96,7 @@ export interface IImageDetailModalProps {
   image: IGalleryImage;
   onShare: () => void;
   onEdit: () => void;
+  onDelete: () => void;
 }
 
 export interface IShareModalProps {

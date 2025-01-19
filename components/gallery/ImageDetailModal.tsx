@@ -1,4 +1,4 @@
-import { Dialog, DialogContent } from '@/components/ui/dialog'
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Share2, Download, Pencil, Trash2 } from 'lucide-react'
@@ -10,10 +10,14 @@ export function ImageDetailModal({
   image,
   onShare,
   onEdit,
+  onDelete
 }: IImageDetailModalProps) {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-4xl">
+        <DialogHeader>
+          <DialogTitle>이미지 상세</DialogTitle>
+        </DialogHeader>
         <div className="grid md:grid-cols-2 gap-4">
           {/* 이미지 섹션 */}
           <div className="relative aspect-square">
@@ -55,20 +59,22 @@ export function ImageDetailModal({
             </div>
 
             {/* 액션 버튼들 */}
-            <div className="flex gap-2 mt-4">
-              <Button onClick={onShare} className="flex-1">
+            <div className="flex justify-end gap-2 mt-4">
+              <Button variant="outline" onClick={onShare}>
                 <Share2 className="w-4 h-4 mr-2" />
                 공유하기
               </Button>
-              <Button variant="outline" className="flex-1">
-                <Download className="w-4 h-4 mr-2" />
-                다운로드
-              </Button>
               <Button variant="outline" onClick={onEdit}>
-                <Pencil className="w-4 h-4" />
+                <Pencil className="w-4 h-4 mr-2" />
+                수정하기
               </Button>
-              <Button variant="destructive">
-                <Trash2 className="w-4 h-4" />
+              <Button 
+                variant="outline" 
+                onClick={onDelete}
+                className="bg-destructive hover:bg-destructive/90"
+              >
+                <Trash2 className="w-4 h-4 text-white" />
+                
               </Button>
             </div>
           </div>

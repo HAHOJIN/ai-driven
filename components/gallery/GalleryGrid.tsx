@@ -5,11 +5,22 @@ import { IGalleryGridProps } from '@/types'
 import { format } from 'date-fns'
 import { ko } from 'date-fns/locale'
 
-export function GalleryGrid({ images, onImageClick }: IGalleryGridProps) {
+export function GalleryGrid({ 
+  images, 
+  onImageClick, 
+  onShare,
+  onDownload,
+  onEdit,
+  onDelete 
+}: IGalleryGridProps) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {images.map((image) => (
-        <div key={image.id} className="flex flex-col bg-white rounded-lg shadow-sm">
+        <div 
+          key={image.id} 
+          className="flex flex-col bg-white rounded-lg shadow-sm cursor-pointer"
+          onClick={() => onImageClick(image)}
+        >
           {/* 이미지 컨테이너 */}
           <div className="relative aspect-square rounded-t-lg overflow-hidden group">
             <Image
@@ -27,7 +38,7 @@ export function GalleryGrid({ images, onImageClick }: IGalleryGridProps) {
                 className="text-white hover:bg-white/20"
                 onClick={(e) => {
                   e.stopPropagation();
-                  onImageClick(image);
+                  onShare(image);
                 }}
               >
                 <Share2 className="w-5 h-5" />
@@ -36,6 +47,10 @@ export function GalleryGrid({ images, onImageClick }: IGalleryGridProps) {
                 variant="ghost"
                 size="icon"
                 className="text-white hover:bg-white/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDownload(image);
+                }}
               >
                 <Download className="w-5 h-5" />
               </Button>
@@ -43,6 +58,10 @@ export function GalleryGrid({ images, onImageClick }: IGalleryGridProps) {
                 variant="ghost"
                 size="icon"
                 className="text-white hover:bg-white/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onEdit(image);
+                }}
               >
                 <Pencil className="w-5 h-5" />
               </Button>
@@ -50,6 +69,10 @@ export function GalleryGrid({ images, onImageClick }: IGalleryGridProps) {
                 variant="ghost"
                 size="icon"
                 className="text-white hover:bg-white/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete(image);
+                }}
               >
                 <Trash2 className="w-5 h-5" />
               </Button>
