@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { PromptInput } from "./PromptInput";
 import { StyleOptions } from "./StyleOptions";
 import { GeneratedImageActions } from "./GeneratedImageActions";
-import { mockGeneratedImage } from "@/utils/mockData";
 import { Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { IGeneratedImage, IStyleOptions } from "@/types";
@@ -38,19 +37,46 @@ export function ImageGeneration({ initialPrompt }: ImageGenerationProps) {
     setPromptError("");
     setIsGenerating(true);
     
-    // 목업 데이터로 2초 후 이미지 생성 시뮬레이션
-    setTimeout(() => {
-      setGeneratedImage({
-        ...mockGeneratedImage,
-        prompt,
-        styleOptions
+    try {
+      const response = await fetch("/api/generate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt,
+          styleOptions
+        }),
       });
-      setIsGenerating(false);
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error?.message || "이미지 생성에 실패했습니다.");
+      }
+
+      if (data.success && data.imageUrl) {
+        setGeneratedImage({
+          imageUrl: data.imageUrl,
+          prompt,
+          styleOptions
+        });
+        toast({
+          title: "이미지 생성 완료",
+          description: "이미지가 성공적으로 생성되었습니다.",
+        });
+      } else {
+        throw new Error("이미지 URL을 받지 못했습니다.");
+      }
+    } catch (error) {
       toast({
-        title: "이미지 생성 완료",
-        description: "이미지가 성공적으로 생성되었습니다.",
+        title: "이미지 생성 실패",
+        description: error instanceof Error ? error.message : "알 수 없는 오류가 발생했습니다.",
+        variant: "destructive",
       });
-    }, 2000);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (

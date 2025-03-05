@@ -4,13 +4,15 @@ const nextConfig = {
         remotePatterns: [
             {
                 protocol: 'https',
-                hostname: 'picsum.photos',
-                pathname: '/**',
+                hostname: 'replicate.com',
             },
             {
                 protocol: 'https',
-                hostname: 'api.dicebear.com',
-                pathname: '/**',
+                hostname: 'replicate.delivery',
+            },
+            {
+                protocol: 'https',
+                hostname: 'picsum.photos',
             },
         ],
     },

@@ -25,6 +25,7 @@
    - **파일 위치**: `components/generate/StyleOptions.tsx`
    - **UI 구성**:
      - 스타일 카테고리별 드롭다운 메뉴 (ShadcN의 `Select` 컴포넌트 사용)
+     - 2열 그리드 레이아웃으로 배치 (grid-cols-2)
    - **스타일 옵션 항목**:
      ```typescript
      interface IStyleOptions {
@@ -33,8 +34,11 @@
      }
      ```
    - **상호작용**:
-     - 각 옵션 변경 시 실시간으로 상태 업데이트
+     - 각 옵션 변경 시 실시간으로 상태 업데이트 (handleStyleOptionChange 함수 사용)
      - 기본값: { artStyle: 'digital-art', colorTone: 'bright' }
+   - **옵션 값 매핑**:
+     - 아트 스타일: 'digital-art', 'watercolor', 'oil-painting', 'pen-drawing', 'pencil-sketch'
+     - 색조: 'bright', 'dark', 'pastel', 'black-and-white', 'colorful'
 
 3. **이미지 생성 섹션**
    - **파일 위치**: `components/generate/ImageGeneration.tsx`
@@ -43,9 +47,14 @@
      - 로딩 상태 표시 (Loader2 아이콘 애니메이션)
      - 생성된 이미지 프리뷰 영역 (Next.js Image 컴포넌트)
    - **상호작용**:
-     - 생성 버튼 클릭 시 로딩 상태 표시
+     - 생성 버튼 클릭 시 로딩 상태 표시 (isGenerating 상태 관리)
      - 이미지 생성 완료 시 프리뷰 표시
      - 생성 중에는 버튼 비활성화
+     - 프롬프트가 비어있을 경우 버튼 비활성화
+   - **API 호출**:
+     - `/api/generate` 엔드포인트로 POST 요청
+     - 요청 데이터: { prompt, styleOptions }
+     - 응답 처리: 성공/실패에 따른 토스트 메시지 표시
 
 4. **생성된 이미지 관리 섹션**
    - **파일 위치**: `components/generate/GeneratedImageActions.tsx`
@@ -68,7 +77,7 @@
 1. **이미지 생성 프로세스**
    ```
    프롬프트 입력 → 스타일 옵션 선택 → 이미지 생성 버튼 클릭 
-   → 로딩 표시(2초) → 이미지 생성 완료 → 결과 이미지 표시
+   → 로딩 표시 → API 호출 → 이미지 생성 완료 → 결과 이미지 표시
    ```
 
 2. **이미지 관리 프로세스**
@@ -99,9 +108,70 @@
   ```typescript
   interface IGenerateResponse {
     success: boolean;
-    imageUrl: string;
-    error?: string;
+    imageUrl?: string;
+    error?: {
+      code: string;
+      message: string;
+    }
   }
+  ```
+- **스타일 옵션 처리**:
+  - `convertStyleToFluxPrompt` 함수를 통해 스타일 옵션을 Flux 모델 프롬프트로 변환
+  - 스타일 옵션이 없거나 유효하지 않은 경우 기본값 사용 (digital-art, bright)
+  - 스타일 프롬프트와 사용자 프롬프트를 결합하여 최종 프롬프트 생성
+  ```typescript
+  // 스타일 옵션을 Flux 모델 프롬프트로 변환
+  function convertStyleToFluxPrompt(styleOptions: IGenerateRequest['styleOptions']): string {
+    // 스타일 옵션이 없는 경우 기본값 설정
+    const options = styleOptions || { artStyle: 'digital-art', colorTone: 'bright' };
+    
+    // 스타일 매핑 정의
+    const stylePrompts = {
+      artStyle: {
+        'digital-art': 'digital art style, highly detailed digital painting',
+        'watercolor': 'watercolor art style, soft watercolor painting technique',
+        'oil-painting': 'oil painting style, textured oil painting technique',
+        'pen-drawing': 'pen and ink drawing style, detailed line art',
+        'pencil-sketch': 'pencil sketch style, detailed graphite drawing'
+      },
+      colorTone: {
+        'bright': 'bright and vibrant colors, high contrast',
+        'dark': 'dark and moody atmosphere, low key lighting',
+        'pastel': 'soft pastel colors, gentle tones',
+        'black-and-white': 'black and white, monochromatic',
+        'colorful': 'rich and colorful palette, vivid colors'
+      }
+    };
+
+    // 유효한 스타일 값인지 확인하고, 유효하지 않으면 기본값 사용
+    const artStyleKey = (options.artStyle && options.artStyle in stylePrompts.artStyle) 
+      ? options.artStyle as keyof typeof stylePrompts.artStyle
+      : 'digital-art';
+    
+    const colorToneKey = (options.colorTone && options.colorTone in stylePrompts.colorTone)
+      ? options.colorTone as keyof typeof stylePrompts.colorTone
+      : 'bright';
+
+    const artStyle = stylePrompts.artStyle[artStyleKey];
+    const colorTone = stylePrompts.colorTone[colorToneKey];
+    
+    return `${artStyle}, ${colorTone}`;
+  }
+  ```
+
+- **Flux 모델 설정**:
+  ```typescript
+  const modelSettings = {
+    prompt: finalPrompt,
+    go_fast: true,
+    megapixels: "1",
+    num_outputs: 1,
+    aspect_ratio: "16:9",
+    output_format: "webp",
+    output_quality: 80,
+    num_inference_steps: 4,
+    disable_safety_checker: false
+  };
   ```
 
 #### 2. 이미지 저장 API
@@ -161,4 +231,11 @@
       message: string;
     }
   }
-  ``` 
+  ```
+
+#### 5. 로깅 및 디버깅
+
+- 프롬프트 및 스타일 옵션 로깅
+- API 요청 설정 로깅
+- Prediction 상태 로깅
+- 에러 발생 시 상세 정보 로깅 
