@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useUser } from '@clerk/nextjs'
 import { GalleryGrid } from '@/components/gallery/GalleryGrid'
 import { ImageDetailModal } from '@/components/gallery/ImageDetailModal'
 import { ShareModal } from '@/components/gallery/ShareModal'
@@ -20,7 +21,8 @@ import { DeleteConfirmModal } from '@/components/gallery/DeleteConfirmModal'
 import { useToast } from "@/hooks/use-toast"
 
 export default function GalleryPage() {
-  const { toast } = useToast()
+  const { isSignedIn, user } = useUser();
+  const { toast } = useToast();
 
   // 초기 상태값 정의
   const initialState = {
@@ -139,7 +141,16 @@ export default function GalleryPage() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="text-2xl font-bold mb-8">내 갤러리</h1>
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-bold">내 갤러리</h1>
+        {isSignedIn && (
+          <div className="flex items-center gap-3">
+            <span className="text-sm text-gray-600">
+              {user?.fullName || user?.username}님의 갤러리
+            </span>
+          </div>
+        )}
+      </div>
 
       {/* 필터 및 검색 섹션 */}
       <div className="flex flex-wrap gap-4 mb-8">
@@ -293,12 +304,12 @@ export default function GalleryPage() {
         </>
       )}
 
-      {/* 삭제 확인 모달 추가 */}
+      {/* 삭제 확인 모달 */}
       <DeleteConfirmModal
         isOpen={isDeleteModalOpen}
         onClose={() => setIsDeleteModalOpen(false)}
         onConfirm={confirmDelete}
       />
     </div>
-  )
+  );
 } 

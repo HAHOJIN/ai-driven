@@ -145,3 +145,17 @@ export interface IErrorResponse {
     message: string;
   }
 }
+
+// 헤더 컴포넌트 Props 인터페이스
+export interface IHeaderProps {
+  className?: string;
+}
+
+// 네비게이션 항목 인터페이스
+export interface INavItem {
+  label: string;
+  href: string;
+  icon?: React.ReactNode;
+  requireAuth?: boolean;
+  isAuthButton?: boolean;
+}
