@@ -1,6 +1,11 @@
 // 이미지 생성 요청 인터페이스
 export interface IGenerateRequest {
   prompt: string;
+  negativePrompt: string;
+  style: any;
+  width: number;
+  height: number;
+  seed: number;
   styleOptions: {
     artStyle: string;  // digital-art, watercolor, oil-painting, pen-drawing, pencil-sketch
     colorTone: string; // bright, dark, pastel, black-and-white, colorful

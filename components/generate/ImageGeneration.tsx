@@ -55,9 +55,9 @@ export function ImageGeneration({ initialPrompt }: ImageGenerationProps) {
         throw new Error(data.error?.message || "이미지 생성에 실패했습니다.");
       }
 
-      if (data.success && data.imageUrl) {
+      if (data.success && data.data) {
         setGeneratedImage({
-          imageUrl: data.imageUrl,
+          imageUrl: data.data.imageUrl,
           prompt,
           styleOptions
         });

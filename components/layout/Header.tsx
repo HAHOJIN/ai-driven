@@ -69,17 +69,7 @@ export function Header({ className }: IHeaderProps) {
    * 네비게이션 링크 렌더링 함수
    */
   const renderNavLink = (item: INavItem) => {
-    // 인증이 필요한 항목이고 로그인하지 않은 경우 로그인 버튼 표시
-    if (item.requireAuth && !isSignedIn) {
-      return (
-        <SignInButton mode="modal">
-          <Button variant="ghost" className="text-base font-semibold">
-            로그인하여 {item.label} 이용하기
-          </Button>
-        </SignInButton>
-      );
-    }
-
+    // 모든 항목을 일반 링크로 렌더링하여 미들웨어가 인증 처리하도록 함
     return (
       <Link
         key={item.href}
